@@ -1,0 +1,37 @@
+nginx-wordpress:
+  image: nginx
+  restart: always
+  ports:
+    - 32715:80
+    - 32716:443
+  log_driver: syslog
+  links:
+    - wordpress
+  volumes:
+    - wordpress-data:/var/www/html:ro
+    - nginx-wordpress/_data/nginx.fr:/etc/nginx/nginx.conf:ro
+    - nginx-wordpress-log:/var/log/nginx
+
+wordpress:
+  build: Dockerfile
+  restart: always
+  links:
+    - mysql
+    - memcached
+  volumes:
+    - wordpress-data:/var/www/html
+
+mysql:
+  image: mariadb
+  restart: always
+  volumes:
+    - wordpress-mariadb:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: ChangeThisPredictablePassword
+    MYSQL_DATABASE: wordpress
+    MYSQL_USER: wordpress
+    MYSQL_PASSWORD: ThisIsAnInsecurePassword
+
+memcached:
+  image: memcached
+  restart: always
