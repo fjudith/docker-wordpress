@@ -3,8 +3,7 @@ FROM wordpress:fpm
 RUN apt-get update
 RUN apt-get install -y \
 	libmemcached-dev \
-	tidy csstidy \
-	php5-ldap
+	tidy csstidy
 
 RUN curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-2.2.0.tgz \
         && tar -xf memcached.tgz -C /usr/src/php/ext/ \
@@ -22,4 +21,11 @@ RUN curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.13.1.tgz \
 RUN docker-php-ext-install memcached
 RUN docker-php-ext-install memcache
 RUN docker-php-ext-install zip
-RUN docker-php-ext-install ldap
+
+ # Install needed php extensions: ldap
+RUN \
+    apt-get update && \
+    apt-get install libldap2-dev -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
