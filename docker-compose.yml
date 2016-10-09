@@ -1,0 +1,38 @@
+wordpress-md:
+  image: mariadb
+  environment:
+    MYSQL_DATABASE: wordpress
+    MYSQL_PASSWORD: Chang3M3
+    MYSQL_ROOT_PASSWORD: Change3M34ls0
+    MYSQL_USER: wordpress
+  volumes:
+  - wordpress-md:/var/lib/mysql
+
+wordpress-mc:
+  image: memcached
+
+wordpress-nginx:
+  image: nginx
+  ports:
+  - 32716:443/tcp
+  - 32715:80/tcp
+  links:
+  - wordpress-mc:wp-memcached
+  - wordpress:wordpress
+  volumes:
+  - wordpress-data:/var/www/html:ro
+  - wordpress-nginx-config:/etc/nginx
+  - wordpress-nginx-log:/var/log/nginx
+
+wordpress:
+  image: fjudith/wordpress
+  # environment:
+  #   WORDPRESS_DB_HOST: mysql
+  #   WORDPRESS_DB_NAME: wordpress
+  #   WORDPRESS_DB_USER: wordpress
+  #   WORDPRESS_DB_PASSWORD: Chang3M3
+  links:
+  - wordpress-mc:wp-memcached
+  - wordpress-md:mysql
+  volumes:
+  - wordpress-data:/var/www/html

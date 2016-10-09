@@ -1,9 +1,11 @@
-FROM wordpress:fpm
+FROM wordpress:4.6.1-fpm
 
 RUN apt-get update
 RUN apt-get install -y \
 	libmemcached-dev \
 	tidy csstidy
+
+RUN mkdir -p /usr/src/php/ext
 
 RUN curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-2.2.0.tgz \
         && tar -xf memcached.tgz -C /usr/src/php/ext/ \
@@ -29,3 +31,7 @@ RUN \
     rm -rf /var/lib/apt/lists/* && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
+
+# ENTRYPOINT resets CMD
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]
