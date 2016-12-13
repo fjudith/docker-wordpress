@@ -1,9 +1,9 @@
-FROM wordpress:4.6.1-fpm
+FROM wordpress:4.7.0-fpm
 
 RUN apt-get update
 RUN apt-get install -y \
 	libmemcached-dev \
-	tidy csstidy
+	tidy csstidy nano
 
 RUN mkdir -p /usr/src/php/ext
 
@@ -15,10 +15,10 @@ RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz \
         && tar -xf memcache.tgz -C /usr/src/php/ext/ \
         && rm memcache.tgz \
         && mv /usr/src/php/ext/memcache-3.0.8 /usr/src/php/ext/memcache
-RUN curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.13.1.tgz \
+RUN curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.13.5.tgz \
         && tar -xf zip.tgz -C /usr/src/php/ext/ \
         && rm zip.tgz \
-        && mv /usr/src/php/ext/zip-1.13.1 /usr/src/php/ext/zip
+        && mv /usr/src/php/ext/zip-1.13.5 /usr/src/php/ext/zip
 
 RUN docker-php-ext-install memcached
 RUN docker-php-ext-install memcache
