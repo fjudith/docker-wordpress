@@ -18,7 +18,7 @@ Re-run the container image
 `docker rm`
 
 ```bash
-docker exec <container name> cd /tmp \ 
+docker exec <container name> cd /tmp && \ 
 	apt-get update -y && \
 	apt-get install wget -y && \
 	apt-get install zip -y && \
