@@ -7,10 +7,10 @@ RUN apt-get install -y \
 
 RUN mkdir -p /usr/src/php/ext
 
-RUN curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-2.2.0.tgz \
+RUN curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz \
         && tar -xf memcached.tgz -C /usr/src/php/ext/ \
         && rm memcached.tgz \
-        && mv /usr/src/php/ext/memcached-2.2.0 /usr/src/php/ext/memcached
+        && mv /usr/src/php/ext/memcached-3.0.3 /usr/src/php/ext/memcached
 
 RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz \
         && tar -xf memcache.tgz -C /usr/src/php/ext/ \
