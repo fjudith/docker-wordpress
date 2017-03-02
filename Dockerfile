@@ -1,4 +1,4 @@
-FROM wordpress:4.7.0-fpm
+FROM wordpress:fpm
 
 RUN apt-get update
 RUN apt-get install -y \
