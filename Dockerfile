@@ -37,6 +37,7 @@ RUN apt-get install libldap2-dev -y && \
 RUN apt-get remove -y build-essential libmemcached-dev libz-dev && \
     apt-get autoremove -y && \
     apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/pear
 
 # ENTRYPOINT resets CMD
