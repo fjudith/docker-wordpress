@@ -12,8 +12,7 @@ RUN apt-get install -y libmemcached-dev && \
         rm memcached.tgz && \
         mv /usr/src/php/ext/memcached-2.2.0 /usr/src/php/ext/memcached
 
-RUN apt-get install -y libmemcache-dev && \
-    curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
+RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
         tar -xf memcache.tgz -C /usr/src/php/ext/ && \
         rm memcache.tgz && \
         mv /usr/src/php/ext/memcache-3.0.8 /usr/src/php/ext/memcache
