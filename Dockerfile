@@ -1,13 +1,11 @@
 FROM wordpress:fpm
 
 RUN apt-get update
-RUN apt-get install -y \
-	libmemcached-dev \
-	tidy csstidy nano
+RUN apt-get install -y tidy csstidy nano
 
 RUN mkdir -p /usr/src/php/ext
 
-RUN apt-get install -y libmemcached-dev && \
+RUN apt-get install -y libmemcached11 libmemcachedutil2 build-essential libmemcached-dev && \
     curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz && \
         tar -xf memcached.tgz -C /usr/src/php/ext/ && \
         echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && \
@@ -34,6 +32,12 @@ RUN apt-get install libldap2-dev -y && \
     rm -rf /var/lib/apt/lists/* && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
+
+# Cleanup
+RUN apt-get remove -y build-essential libmemcached-dev libz-dev && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /tmp/pear
 
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["docker-entrypoint.sh"]
