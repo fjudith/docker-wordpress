@@ -198,4 +198,5 @@ http {
 # References
 https://wooster.checkmy.ws/2015/10/wordpress-docker/
 https://ejosh.co/de/2015/08/wordpress-and-docker-the-correct-way/
+https://github.com/docker-library/php/issues/132
 
