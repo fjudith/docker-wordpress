@@ -8,22 +8,22 @@ RUN apt-get install -y \
 RUN mkdir -p /usr/src/php/ext
 
 RUN apt-get install -y libmemcached-dev && \
-    curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz \
-        && tar -xf memcached.tgz -C /usr/src/php/ext/ \
-        && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
-        && rm memcached.tgz \
-        && mv /usr/src/php/ext/memcached-3.0.3 /usr/src/php/ext/memcached
+    curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz && \
+        tar -xf memcached.tgz -C /usr/src/php/ext/ && \
+        echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && \
+        rm memcached.tgz && \
+        mv /usr/src/php/ext/memcached-3.0.3 /usr/src/php/ext/memcached
 
-RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz \
-        && tar -xf memcache.tgz -C /usr/src/php/ext/ \
-        && rm memcache.tgz \
-        && mv /usr/src/php/ext/memcache-3.0.8 /usr/src/php/ext/memcache
+RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
+        tar -xf memcache.tgz -C /usr/src/php/ext/ && \
+        rm memcache.tgz && \
+        mv /usr/src/php/ext/memcache-3.0.8 /usr/src/php/ext/memcache
 
 RUN apt-get install -y libz-dev && \
-    curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.13.5.tgz \
-        && tar -xf zip.tgz -C /usr/src/php/ext/ \
-        && rm zip.tgz \
-        && mv /usr/src/php/ext/zip-1.13.5 /usr/src/php/ext/zip
+    curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.13.5.tgz && \
+        tar -xf zip.tgz -C /usr/src/php/ext/ && \
+        rm zip.tgz && \
+        mv /usr/src/php/ext/zip-1.13.5 /usr/src/php/ext/zip
 
 RUN docker-php-ext-install memcached
 RUN docker-php-ext-install memcache
