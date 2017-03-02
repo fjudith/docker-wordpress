@@ -5,14 +5,15 @@ RUN apt-get install -y tidy csstidy nano
 
 RUN mkdir -p /usr/src/php/ext
 
-RUN apt-get install -y libmemcached11 libmemcachedutil2 build-essential libmemcached-dev && \
-    curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz && \
+RUN apt-get install -y libmemcached-dev && \
+    curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-2.2.0.tgz && \
         tar -xf memcached.tgz -C /usr/src/php/ext/ && \
         echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && \
         rm memcached.tgz && \
-        mv /usr/src/php/ext/memcached-3.0.3 /usr/src/php/ext/memcached
+        mv /usr/src/php/ext/memcached-2.2.0 /usr/src/php/ext/memcached
 
-RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
+RUN apt-get install -y libmemcache-dev && \
+    curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
         tar -xf memcache.tgz -C /usr/src/php/ext/ && \
         rm memcache.tgz && \
         mv /usr/src/php/ext/memcache-3.0.8 /usr/src/php/ext/memcache
@@ -34,11 +35,8 @@ RUN apt-get install libldap2-dev -y && \
     docker-php-ext-install ldap
 
 # Cleanup
-RUN apt-get remove -y build-essential libmemcached-dev libz-dev && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/pear
+RUN rm -rf /var/lib/apt/lists/* && \
+
 
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["docker-entrypoint.sh"]
