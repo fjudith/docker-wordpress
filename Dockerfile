@@ -1,4 +1,6 @@
-FROM wordpress:fpm
+FROM wordpress:4.7.3-fpm
+
+MAINTAINER Florian JUDITH <florian.judith.b@gmail.com>
 
 RUN apt-get update
 RUN apt-get install -y tidy csstidy nano

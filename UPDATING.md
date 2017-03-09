@@ -18,13 +18,13 @@ Re-run the container image
 `docker rm`
 
 ```bash
-docker exec <container name> cd /tmp && \ 
+docker exec <container name> cd /tmp && \
 	apt-get update -y && \
 	apt-get install wget -y && \
 	apt-get install zip -y && \
-	wget http://wordpress.org/latest.zip && \ 
-	unzip latest.zip && \ 
-	cp -avr /tmp/wordpress/* /var/www/html/ && \ 
+	wget http://wordpress.org/latest.zip && \
+	unzip latest.zip && \
+	cp -avr /tmp/wordpress/* /var/www/html/ && \
 	rm -rf /tmp/wordpress /tmp/latest.zip
 
 docker restart <container name>
