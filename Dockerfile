@@ -1,4 +1,4 @@
-FROM wordpress:4.7.3-fpm
+FROM wordpress:4.8.0-fpm
 
 MAINTAINER Florian JUDITH <florian.judith.b@gmail.com>
 
