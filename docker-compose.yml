@@ -12,7 +12,7 @@ wordpress-mc:
   image: memcached
 
 wordpress-nginx:
-  image: nginx
+  image: fjudith/wordpress:nginx
   ports:
   - 32716:443/tcp
   - 32715:80/tcp
@@ -26,13 +26,13 @@ wordpress-nginx:
 
 wordpress:
   image: fjudith/wordpress
-  # environment:
-  #   WORDPRESS_DB_HOST: mysql
-  #   WORDPRESS_DB_NAME: wordpress
-  #   WORDPRESS_DB_USER: wordpress
-  #   WORDPRESS_DB_PASSWORD: Chang3M3
+  environment:
+    WORDPRESS_DB_HOST: mysql
+    WORDPRESS_DB_NAME: wordpress
+    WORDPRESS_DB_USER: wordpress
+    WORDPRESS_DB_PASSWORD: Chang3M3
   links:
-  - wordpress-mc:wp-memcached
+  - wordpress-mc:memcached
   - wordpress-md:mysql
   volumes:
   - wordpress-data:/var/www/html
