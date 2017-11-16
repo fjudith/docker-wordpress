@@ -1,0 +1,73 @@
+env:
+  global:
+  # Docker Repository
+  - REPO=fjudith/wordpress
+  # Compute docker tag
+  - TAG=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "latest"; else echo ${TRAVIS_BRANCH} ; fi`
+  - PHP5=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "php5-fpm"; else echo ${TRAVIS_BRANCH}-php5-fpm ; fi`
+  - PHP5=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "php7-fpm"; else echo ${TRAVIS_BRANCH}-php7-fpm ; fi`
+  - NGINX=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "nginx"; else echo ${TRAVIS_BRANCH}-nginx ; fi`
+  # Retreive commit ID
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - secure: "2KBo0owyPc448YMOA5LLemAejzZ64JoUAD0HseZkYQvme0jsniuG7s5rYNXWQuxmI9AJLGUTTpW7UaH3OXvBCbFvoZpfcxiy+tu3E5W0k6muOkQkz/T6gNqeCoyVNJNXoDwkBQ2KJZ017nE02r6RWGVeJDXTl69TkcabHWuyDpf/RVhZfaOzjP4j/138qKYb3Ss2TYXrHjQJ0M66QZAUeNx5xfVcCDUIB1ofnSLgV2+l/doCNElHMkIeY1H7k5LHwgrm/ROB2tVFNFZqPDpSD7kgn9vqtiNeb/iQOmfGdD3F40H0gZYR38UuF81mTLsM/tG7SIYIAwxHgboMQNk+3VqRTYLGcNOPx7V/WagRIWJ8zQDMwYan9b/TxXJh5K+STViu12jYXKoLQae9M6sEs32VEFmk7kZ2YqEGOiePd4fXNaBCgHKB6GRKESJ6osQMran+UJM7wrIgmMTiBus849hR1RJTbRNU5Mcge7z9dLigACBmFICl7ZxzZ/1M/8x+4jSuEltaph+isKizyxbxm0cpVoJtD8fm7NyZByqLvSt6TQ2iiGljEJIBhgd8B2K+kRkFzOLbBh6jzhAF2BHa4nBr/irirkfhUvLX/vtKBWUhN0ojeBDHbZUwjcYFEom7V0kb/2Zx2MjfeAORwDbTe92KeO9nvmV160ASU5Iolok="
+  - secure: "dywvyJ3zndrIz89dDLK5RoWyNKpeh0Wn7onuJrWpiv2EdlhFhdTMn2jolmcPJCPd5PV5dMnb4dM3RtvFrEgb59KplyaWf6taeRoXMpWSvsz2xYr+dRuEeE7Jd58YzqYpuY9N9zGQKtM3cM5EJoaAXwh6bLYOIdNFvz6efHWxA2SJkD70Nc4GEE9n5ceg6iiXbesD5j6NSa0iSXlq2tf4cvoCCoZ+baZrOqDVXZ6fKSYStQwIhCYuvmq/ni7APYT1/TVjfswt9j2WP1AGucSNWeWpROVcOocyKHMqEHlXLLO9Bg467SxhhqxrfuE7xF+VEezS9CKNXCCQroVH6uyw7Q3uEpl5FMWU/w8zDgtxoQ/PHzw0X1RvJXtPywxscXtyZZZf8hpHPBu9TqEeybLUOAF29jwD/9LSkCXiWf8CSsSp4pW4nji092z8KS+7/JXGTh8JQ3fASpjnraNcI3aYz/zi7PQhkOJMAGg9fnOeS7yc+jHsEhQblsjQnr3ctc2DCFft8yIjh3QS9r8lQpc36cFyqeoyWkwWZLsah5rjfIsKBcRO17hihg6WNboGojoldRQ7ImtXTdxu+s8VUj0bBqOhhEDXg0Sq6Y5f4UZTdjsadf8B565E64W3pAu2uS8d4+H6iDHZ2BDowpV98eagX3dRRG7RvfPBJhRmuHWJB7M="
+  - secure: "IibrhOsDWUu/TuWcTKSmkFVmL5UlmAxKu4+gn9S/QK0YbaDm9uijCwOHHaeOdRgh5VW+aT+twcuZwRMoD3BxGDPJI3fziUE1zk3BKC6IP8l7dkDxyPWx8lJ5EOcs9+LLd/qBKUMkyYYstUbYbVEumZ0faaV3L53KtVgjAGvXSYKdg+isTsy41xIlgyf2CVe9dmMk4ie+yXE2g1BogEnrlw1vHvxfN1VIi4+d3036veWxxY/dfY1fQ98pEfjYIfHLP3gkU00dpWVgcytd23jeYhYDI0AQMjRQVs61MVchY/G+YYhfyFrQwf34ibP04izjoBaKKQaeADOPVmPUpVSc1kHJ9K4u43v30r3Q4D4tw7Ikh5qDlv8OvbRxSL24QC89d4ZPCdpBZNk0eVUpWTOxC7iNC6TlFkAa567xmL+cqVBHmVOmLPG5UaJEm2Av/7/0RD7NG53dtRbfBfeufTnRwjbTo14wM/G3F3M7bcfOBAFVSKMoaB42c4MKKyRcVO2L2T6kZcEy9dAnqcRaW+ATK/5GF7MxYQfLrwuUkqSiUI2UL67+mQL06h9fZ+9KgGO3ykQumjd0Yu0OiSZ4txEQm8Ay6mba7iGY9MEYvRZ2t5OpRtWTBP5hcH/23qCr/gF5DOkTiLrfcKfz3gFe/Py/Iw/Sz5v2UtoY7MolKTxF5Eo="
+
+  
+sudo: required
+services:
+  - docker
+
+
+before_install:
+  # BUILD
+  #
+  # php5-fpm: build
+  - docker build -f php5-fpm/Dockerfile -t ${REPO}:${COMMIT}-php5-fpm php5-fpm/
+  # php7-fpm: build
+  - docker build -f php7-fpm/Dockerfile -t ${REPO}:${COMMIT}-php7-fpm php7-fpm/
+  # nginx: build
+  - docker build -f nginx/Dockerfile -t ${REPO}:${COMMIT}-nginx nginx/
+  # RUN
+  #
+  ## php5: mariadb
+  - docker run -d --name "php5-md-${TRAVIS_BUILD_NUMBER}" -e MYSQL_DATABASE=wordpress -e MYSQL_ROOT_PASSWORD=Ch4ng3m3 -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=Ch4ng3m3 mariadb
+  ## php5: memcached
+  - docker run -d --name "php5-mc-${TRAVIS_BUILD_NUMBER}" memcached
+  ## php5: fpm
+  - sleep 15
+  - docker run -d --name "php5-fpm-${TRAVIS_BUILD_NUMBER}" -v php5-data:/var/www/html --link php5-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php5-md-${TRAVIS_BUILD_NUMBER}:mysql ${REPO}:${COMMIT}-php5-fpm
+  ## php5: nginx
+  - docker run -d --name "php5-nginx-${TRAVIS_BUILD_NUMBER}" -v php5-data:/var/www/html --link php5-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php5-fpm-${TRAVIS_BUILD_NUMBER}:wordpress  ${REPO}:${COMMIT}-nginx
+  ## php7: mariadb
+  - docker run -d --name "php7-md-${TRAVIS_BUILD_NUMBER}" -e MYSQL_DATABASE=wordpress -e MYSQL_ROOT_PASSWORD=Ch4ng3m3 -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=Ch4ng3m3 mariadb
+  ## php7: memcached
+  - docker run -d --name "php7-mc-${TRAVIS_BUILD_NUMBER}" memcached
+  ## php7: fpm
+  - sleep 15
+  - docker run -d --name "php7-fpm-${TRAVIS_BUILD_NUMBER}" -v php7-data:/var/www/html --link php7-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php7-md-${TRAVIS_BUILD_NUMBER}:mysql ${REPO}:${COMMIT}-php7-fpm
+  ## php7: nginx
+  - docker run -d --name "php7-nginx-${TRAVIS_BUILD_NUMBER}" -v php7-data:/var/www/html --link php7-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php7-fpm-${TRAVIS_BUILD_NUMBER}:wordpress  ${REPO}:${COMMIT}-nginx
+
+
+script:
+  # php5: test
+  - docker run --rm --link php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
+  # php7: test
+  - docker run --rm --link php7-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
+
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  # latest
+  - docker tag ${REPO}:${COMMIT}-php5-fpm ${REPO}:${TAG}
+  # php5
+  - docker tag ${REPO}:${COMMIT}-php5-fpm ${REPO}:${PHP5}
+  - docker tag ${REPO}:${COMMIT}-php5-fpm ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-php5-fpm
+  # php7
+  - docker tag ${REPO}:${COMMIT}-php7-fpm ${REPO}:${PHP7}
+  - docker tag ${REPO}:${COMMIT}-php7-fpm ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-php7-fpm
+  # nginx
+  - docker tag ${REPO}:${COMMIT}-nginx ${REPO}:${NGINX}
+  - docker tag ${REPO}:${COMMIT}-nginx ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-nginx
+  - docker push $REPO
