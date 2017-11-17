@@ -33,11 +33,10 @@ RUN apt-get install --no-install-recommends -y unzip libssl-dev libpcre3 libpcre
     cd /tmp && \
     curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/NON_BLOCKING_IO_php7.zip && \
     unzip php7.zip && \
-    cd pecl-memcache-php7 && \
+    cd pecl-memcache-NON_BLOCKING_IO_php7.zip_php7 && \
     /usr/local/bin/phpize \
     ./configure --with-php-config=/usr/local/bin/php-config && \
     make && \
-    make install && \
     echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini && \
     rm -rf /tmp/pecl-memcache-php7 php7.zip
 
