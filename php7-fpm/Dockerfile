@@ -7,7 +7,7 @@ RUN apt-get install -y tidy csstidy nano
 
 RUN mkdir -p /usr/src/php/ext
 
-RUN apt-get install -y libmemcached-dev && \
+RUN apt-get install -y libpq-dev libmemcached-dev && \
     curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz && \
         tar -xf memcached.tgz -C /usr/src/php/ext/ && \
         echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && \
