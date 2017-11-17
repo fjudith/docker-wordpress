@@ -34,8 +34,6 @@ wordpress-nginx:
   - wordpress:wordpress
   volumes:
   - wordpress-data:/var/www/html:ro
-  - wordpress-nginx-config:/etc/nginx
-  - wordpress-nginx-log:/var/log/nginx
 
 wordpress:
   image: fjudith/wordpress

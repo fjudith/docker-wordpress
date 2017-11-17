@@ -17,12 +17,10 @@ wordpress-nginx:
   - 32716:443/tcp
   - 32715:80/tcp
   links:
-  - wordpress-mc:wp-memcached
+  - wordpress-mc:memcached
   - wordpress:wordpress
   volumes:
-  - wordpress-data:/var/www/html:ro
-  - wordpress-nginx-config:/etc/nginx
-  - wordpress-nginx-log:/var/log/nginx
+  - wordpress-data:/var/www/html:rw
 
 wordpress:
   image: fjudith/wordpress
