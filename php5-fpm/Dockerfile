@@ -7,6 +7,8 @@ RUN apt-get install --no-install-recommends -y tidy csstidy nano
 
 RUN mkdir -p /usr/src/php/ext
 
+# Install needed php extensions: memcached
+#
 RUN apt-get install --no-install-recommends -y libmemcached-dev && \
     curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-2.2.0.tgz && \
         tar -xf memcached.tgz -C /usr/src/php/ext/ && \
@@ -25,8 +27,8 @@ RUN { \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN apt-get install -y 
-
+# Install needed php extensions: memcache
+#
 RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
         tar -xf memcache.tgz -C /usr/src/php/ext/ && \
         rm memcache.tgz && \
@@ -42,7 +44,8 @@ RUN docker-php-ext-install memcached
 RUN docker-php-ext-install memcache
 RUN docker-php-ext-install zip
 
- # Install needed php extensions: ldap
+# Install needed php extensions: ldap
+#
 RUN apt-get install --no-install-recommends -y libldap2-dev && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
