@@ -14,6 +14,29 @@ RUN apt-get install -y libpq-dev libmemcached-dev && \
         rm memcached.tgz && \
         mv /usr/src/php/ext/memcached-3.0.3 /usr/src/php/ext/memcached
 
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+RUN { \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=4000'; \
+        echo 'opcache.revalidate_freq=2'; \
+        echo 'opcache.fast_shutdown=1'; \
+        echo 'opcache.enable_cli=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+RUN apt-get install --no-install-recommends -y unzip libssl-dev libpcre3 libpcre3-dev && \
+    cd /tmp && \
+    curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/php7.zip && \
+    unzip php7 && \
+    cd pecl-memcache-php7 && \
+    /usr/local/bin/phpize \
+    ./configure --with-php-config=/usr/local/bin/php-config && \
+    make && \
+    make install && \
+    echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini && \
+    rm -rf /tmp/pecl-memcache-php7 php7.zip
+
 RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
         tar -xf memcache.tgz -C /usr/src/php/ext/ && \
         rm memcache.tgz && \
