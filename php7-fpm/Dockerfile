@@ -34,7 +34,7 @@ RUN apt-get install --no-install-recommends -y unzip libssl-dev libpcre3 libpcre
     cd /usr/src/php/ext/ && \
     curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/NON_BLOCKING_IO_php7.zip && \
     unzip php7.zip && \
-    mv pecl-memcache-NON_BLOCKING_IO_php7 memcache-3.0.8 && \
+    mv pecl-memcache-NON_BLOCKING_IO_php7 memcache && \
     docker-php-ext-configure memcache --with-php-config=/usr/local/bin/php-config && \
     docker-php-ext-install memcache && \
     echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini && \

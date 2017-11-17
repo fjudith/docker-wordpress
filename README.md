@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fjudith/docker-wordpress.svg?branch=master)](https://travis-ci.org/fjudith/docker-wordpress)
+
 # Introduction
 
 This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress fpm image](https://hub.docker.com/_/wordpress/) for WordPress plugins.
@@ -28,7 +30,7 @@ wordpress-nginx:
   - 32716:443/tcp
   - 32715:80/tcp
   links:
-  - wordpress-mc:wp-memcached
+  - wordpress-mc:memcached
   - wordpress:wordpress
   volumes:
   - wordpress-data:/var/www/html:ro
@@ -38,7 +40,7 @@ wordpress-nginx:
 wordpress:
   image: fjudith/wordpress
   links:
-  - wordpress-mc:wp-memcached
+  - wordpress-mc:memcached
   - wordpress-md:mysql
   volumes:
   - wordpress-data:/var/www/html
@@ -194,7 +196,7 @@ http {
     }
 
     upstream memcached-servers {
-        server wp-memcached:11211;
+        server memcached:11211;
     }
 }
 ```
