@@ -4,7 +4,7 @@
 
 This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress fpm image](https://hub.docker.com/_/wordpress/) for WordPress plugins.
 
-[`4.8.3-fpm`, `latest`](https://github.com/fjudith/docker-wordpress/tree/4.8.0-fpm)
+[`4.8.3-fpm`, `latest`](https://github.com/fjudith/docker-wordpress/tree/4.8.3-fpm)
 [`4.8.0-fpm`](https://github.com/fjudith/docker-wordpress/tree/4.8.0-fpm)
 [`4.7.3-fpm`](https://github.com/fjudith/docker-wordpress/tree/4.7.3-fpm)
 
@@ -25,7 +25,7 @@ wordpress-mc:
   image: memcached
 
 wordpress-nginx:
-  image: nginx
+  image: fjudith/wordpress:nginx
   ports:
   - 32716:443/tcp
   - 32715:80/tcp
