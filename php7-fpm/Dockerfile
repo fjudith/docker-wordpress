@@ -27,18 +27,20 @@ RUN { \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+
 # Install needed php extensions: memcache
 #
 RUN apt-get install --no-install-recommends -y unzip libssl-dev libpcre3 libpcre3-dev && \
     cd /tmp && \
     curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/NON_BLOCKING_IO_php7.zip && \
     unzip php7.zip && \
-    cd pecl-memcache-NON_BLOCKING_IO_php7.zip_php7 && \
+    cd pecl-memcache-NON_BLOCKING_IO_php7 && \
     /usr/local/bin/phpize \
     ./configure --with-php-config=/usr/local/bin/php-config && \
     make && \
     echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini && \
     rm -rf /tmp/pecl-memcache-php7 php7.zip
+
 
 # Install needed php extensions: zip
 #
@@ -52,11 +54,13 @@ RUN docker-php-ext-install memcached
 RUN docker-php-ext-install memcache
 RUN docker-php-ext-install zip
 
+
 # Install needed php extensions: ldap
 #
 RUN apt-get install libldap2-dev -y && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
+
 
 # Cleanup
 RUN rm -rf /var/lib/apt/lists/*
