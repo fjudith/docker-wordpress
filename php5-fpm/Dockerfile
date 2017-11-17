@@ -38,7 +38,7 @@ RUN apt-get install -y --no-install-recommends libz-dev && \
     curl -o zip.tgz -SL http://pecl.php.net/get/zip-1.13.5.tgz && \
         tar -xf zip.tgz -C /usr/src/php/ext/ && \
         rm zip.tgz && \
-        mv /usr/src/php/ext/zip-1.13.5 /usr/src/php/ext/zip
+        mv /usr/src/php/ext/zip-1.15.1 /usr/src/php/ext/zip
 
 RUN docker-php-ext-install memcached
 RUN docker-php-ext-install memcache
