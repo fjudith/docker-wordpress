@@ -3,9 +3,9 @@ env:
   # Docker Repository
   - REPO=fjudith/wordpress
   # Compute docker tag
-  - TAG=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "latest"; else echo ${TRAVIS_BRANCH} ; fi`
+  - TAG=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "latest"; else echo ${TRAVIS_BRANCH}-fpm ; fi`
   - PHP5=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "php5-fpm"; else echo ${TRAVIS_BRANCH}-php5-fpm ; fi`
-  - PHP7=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "php7-fpm"; else echo ${TRAVIS_BRANCH}-php7-fpm ; fi`
+  - PHP7=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "php7-fpm"; else echo ${TRAVIS_BRANCH}-php7.1-fpm ; fi`
   - NGINX=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "nginx"; else echo ${TRAVIS_BRANCH}-nginx ; fi`
   # Retreive commit ID
   - COMMIT=${TRAVIS_COMMIT::8}
