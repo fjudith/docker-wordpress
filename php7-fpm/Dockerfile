@@ -1,4 +1,4 @@
-FROM wordpress:4.8.3-fpm
+FROM wordpress:4.8.3-php7.1-fpm
 
 LABEL maintainer='Florian JUDITH <florian.judith.b@gmail.com>'
 
@@ -8,12 +8,11 @@ RUN apt-get install -y tidy csstidy nano
 RUN mkdir -p /usr/src/php/ext
 
 RUN apt-get install -y libpq-dev libmemcached-dev && \
-    curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" && \
-    mkdir -p /usr/src/php/ext/memcached && \
-    tar -C /usr/src/php/ext/memcached -zxvf /tmp/memcached.tar.gz --strip 1 && \
-    docker-php-ext-configure memcached && \
-    docker-php-ext-install memcached && \
-    rm /tmp/memcached.tar.gz
+    curl -o memcached.tgz -SL http://pecl.php.net/get/memcached-3.0.3.tgz && \
+        tar -xf memcached.tgz -C /usr/src/php/ext/ && \
+        echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && \
+        rm memcached.tgz && \
+        mv /usr/src/php/ext/memcached-3.0.3 /usr/src/php/ext/memcached
 
 RUN curl -o memcache.tgz -SL http://pecl.php.net/get/memcache-3.0.8.tgz && \
         tar -xf memcache.tgz -C /usr/src/php/ext/ && \
