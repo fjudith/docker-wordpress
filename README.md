@@ -4,12 +4,14 @@
 
 This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress fpm image](https://hub.docker.com/_/wordpress/) for WordPress plugins.
 
-[`4.9.0-fpm`, `latest`](https://github.com/fjudith/docker-wordpress/tree/4.9.0-fpm)
+[`4.9.1-fpm`, `latest`](https://github.com/fjudith/docker-wordpress/tree/4.9.1-fpm)
 [`4.8.3-fpm`](https://github.com/fjudith/docker-wordpress/tree/4.8.3-fpm)
 [`4.8.0-fpm`](https://github.com/fjudith/docker-wordpress/tree/4.8.0-fpm)
 [`4.7.3-fpm`](https://github.com/fjudith/docker-wordpress/tree/4.7.3-fpm)
 
 # Roadmap 
+
+* [x] Add wp-cli running php7.1-cli official image based on debian
 
 ## Docker-Compose
 
@@ -45,6 +47,21 @@ wordpress:
   - wordpress-md:mysql
   volumes:
   - wordpress-data:/var/www/html
+
+  cli:
+    image: fjudith/wordpress:cli
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: Chang3M3
+    depends_on:
+      - wordpress-md
+      - wordpress
+    links:
+    - wordpress-md:mysql
+    volumes:
+    - wordpress-data:/var/www/html
 ```
 
 # References

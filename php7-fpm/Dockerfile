@@ -1,4 +1,4 @@
-FROM wordpress:4.9.0-php7.1-fpm
+FROM wordpress:4.9.1-php7.1-fpm
 
 LABEL maintainer='Florian JUDITH <florian.judith.b@gmail.com>'
 

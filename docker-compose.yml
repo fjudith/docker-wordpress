@@ -1,36 +1,60 @@
-wordpress-md:
-  image: mariadb
-  environment:
-    MYSQL_DATABASE: wordpress
-    MYSQL_PASSWORD: Chang3M3
-    MYSQL_ROOT_PASSWORD: Change3M34ls0
-    MYSQL_USER: wordpress
-  volumes:
-  - wordpress-md:/var/lib/mysql
+version: '2'
+volumes:
+  mariadb:
+  wordpress-data:
 
-wordpress-mc:
-  image: memcached
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_PASSWORD: Chang3M3
+      MYSQL_ROOT_PASSWORD: Change3M34ls0
+      MYSQL_USER: wordpress
+    volumes:
+    - mariadb:/var/lib/mysql
 
-wordpress-nginx:
-  image: fjudith/wordpress:nginx
-  ports:
-  - 32716:443/tcp
-  - 32715:80/tcp
-  links:
-  - wordpress-mc:memcached
-  - wordpress:wordpress
-  volumes:
-  - wordpress-data:/var/www/html:rw
+  memcached:
+    image: memcached
 
-wordpress:
-  image: fjudith/wordpress
-  environment:
-    WORDPRESS_DB_HOST: mysql
-    WORDPRESS_DB_NAME: wordpress
-    WORDPRESS_DB_USER: wordpress
-    WORDPRESS_DB_PASSWORD: Chang3M3
-  links:
-  - wordpress-mc:memcached
-  - wordpress-md:mysql
-  volumes:
-  - wordpress-data:/var/www/html
+  nginx:
+    build: nginx/
+    image: fjudith/wordpress:nginx
+    ports:
+    - 32716:443/tcp
+    - 32715:80/tcp
+    links:
+    - memcached:memcached
+    - wordpress:wordpress
+    volumes:
+    - wordpress-data:/var/www/html:rw
+
+  wordpress:
+    build: php7-fpm/
+    image: fjudith/wordpress
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: Chang3M3
+    links:
+    - memcached:memcached
+    - mariadb:mysql
+    volumes:
+    - wordpress-data:/var/www/html
+
+  cli:
+    build: cli/
+    image: fjudith/wordpress:cli
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: Chang3M3
+    depends_on:
+      - mariadb
+      - wordpress
+    links:
+    - mariadb:mysql
+    volumes:
+    - wordpress-data:/var/www/html
