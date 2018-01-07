@@ -11,9 +11,6 @@ RUN apt-get update && \
         libjpeg-dev \
         libpng-dev 
 
-# Cleanup
-RUN rm -rf /var/lib/apt/lists/*
-
 RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr && \
     docker-php-ext-install gd mysqli opcache
 
@@ -42,6 +39,9 @@ RUN curl -L https://github.com/wp-cli/wp-cli/releases/download/v${WORDPRESS_CLI_
     chmod +x /usr/local/bin/wp-cli.phar && \
     ln -s /usr/local/bin/wp-cli.phar /bin/wp && \
     wp --allow-root --version
+
+# Cleanup
+RUN rm -rf /var/lib/apt/lists/*
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN  chmod +x /docker-entrypoint.sh
