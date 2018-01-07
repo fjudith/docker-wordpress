@@ -1,6 +1,6 @@
 version: '2'
 volumes:
-  mariadb:
+  wordpress-db:
   wordpress-data:
 
 services:
@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: Change3M34ls0
       MYSQL_USER: wordpress
     volumes:
-    - mariadb:/var/lib/mysql
+    - wordpress-db:/var/lib/mysql
 
   memcached:
     image: memcached
@@ -46,11 +46,8 @@ services:
   cli:
     build: cli/
     image: fjudith/wordpress:cli
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: Chang3M3
+    stdin_open: true
+    tty: true
     depends_on:
       - mariadb
       - wordpress
