@@ -28,6 +28,12 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 } > /usr/local/etc/php/conf.d/opcache-recommended.ini 
 
+# Install needed php extensions: ldap
+#
+RUN apt-get install libldap2-dev -y && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
+
 RUN mkdir -p /var/www/html && \
     chown -R www-data:www-data /var/www/html
 
