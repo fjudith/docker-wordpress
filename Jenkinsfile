@@ -24,7 +24,7 @@ pipeline {
                     else {
                         TAG   = "${BRANCH_NAME}"
                         NGINX = "${BRANCH_NAME}-nginx"
-                        FPM   = "${BRANCH_NAME}-fpm"
+                        FPM   = "${BRANCH_NAME}-php7.1-fpm"
                         CLI   = "${BRANCH_NAME}-cli"                      
                     }
                 }
@@ -48,7 +48,7 @@ pipeline {
                 stage ('Wordpress PHP-FPM') {
                     agent { label 'docker'}
                     steps {
-                        sh "docker build -f php7-fpm/Dockerfile -t ${REPO}:${COMMIT}-fpm fpm/"
+                        sh "docker build -f php7-fpm/Dockerfile -t ${REPO}:${COMMIT}-fpm php7-fpm/"
                     }
                     post {
                         success {
