@@ -21,7 +21,7 @@ This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress f
 ```yml
 version: '2'
 volumes:
-  mariadb:
+  wordpress-db:
   wordpress-data:
 
 services:
@@ -33,7 +33,7 @@ services:
       MYSQL_ROOT_PASSWORD: Change3M34ls0
       MYSQL_USER: wordpress
     volumes:
-    - mariadb:/var/lib/mysql
+    - wordpress-db:/var/lib/mysql
 
   memcached:
     image: memcached
