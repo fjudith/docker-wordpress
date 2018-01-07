@@ -46,11 +46,8 @@ services:
   cli:
     build: cli/
     image: fjudith/wordpress:cli
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: Chang3M3
+    stdin_open: true
+    tty: true
     depends_on:
       - mariadb
       - wordpress
