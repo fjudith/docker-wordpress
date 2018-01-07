@@ -29,7 +29,7 @@ volumes:
 
 services:
   mariadb:
-    image: mariadb
+    image: amd64/mariadb:10.2
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_PASSWORD: Chang3M3
@@ -39,7 +39,7 @@ services:
     - wordpress-db:/var/lib/mysql
 
   memcached:
-    image: memcached
+    image: amd64/memcached:1.5
 
   nginx:
     build: nginx/
