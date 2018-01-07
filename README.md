@@ -12,7 +12,10 @@ This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress f
 # Roadmap 
 
 * [x] Add wp-cli running php7.1-cli official image based on debian
+* [x] Enable WP-CACHE in wp-config.php
 * [x] Build & Validate using Travis CI and Jenkins CI
+* [x] Add WP-FFPC plugin for object caching to Memcached
+* [x] Add Simple-Ldap-Login plugin for LDAP/AD authentication
 
 ## Production deployment
 
@@ -77,6 +80,17 @@ services:
     volumes:
     - wordpress-data:/var/www/html
 ```
+
+## Enable Object Caching
+
+Once the initial site configuration performed, navigate to `Plugins`, activate `WP-FFPC` and click `Settings`.
+Set the following minimal configuration options:
+
+* **Cache Type/Select Backend**: PHP Memcached
+* **Backend Settings/Hosts**: memcached:11211
+* **Backend Settings/Authentication: username**: _Empty_
+* **Backend Settings/Authentication: password**: _Empty_
+* **Backend Settings/Enable memcached binary mode**: **Activated**
 
 ## Updating
 

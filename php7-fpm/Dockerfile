@@ -60,6 +60,25 @@ RUN apt-get install libldap2-dev -y && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
 
+# Install needed wordpress extensions: WP-FFPC
+#
+RUN cd /usr/src/wordpress/wp-content/plugins && \
+    curl -o wp-ffpc.zip -L https://downloads.wordpress.org/plugin/wp-ffpc.zip && \
+    unzip -o wp-ffpc.zip && \
+    chown -R www-data:www-data wp-ffpc && \
+    rm -f wp-ffpc.zip
+
+# Enable Wordpress Caching
+RUN cd /usr/src/wordpress && ls -l && \
+    sed -ri -e "s#(<\?php)#\\1\ndefine('WP_CACHE', 'true');#g" wp-config-sample.php
+
+# Install needed wordpress extensions: Simple-Ldap-Login
+#
+RUN cd /usr/src/wordpress/wp-content/plugins && \
+    curl -o simple-ldap-login.zip -L https://downloads.wordpress.org/plugin/simple-ldap-login.1.6.0.zip && \
+    unzip -o simple-ldap-login.zip && \
+    chown -R www-data:www-data simple-ldap-login && \
+    rm -f simple-ldap-login.zip
 
 # Cleanup
 RUN rm -rf /var/lib/apt/lists/*
