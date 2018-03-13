@@ -13,7 +13,7 @@ spec:
     - name: fpm-udp
       port: 9000
       targetPort: 9000
-      protocol: TCP
+      protocol: UDP
   selector:
     app: wordpress
     tier: appengine
@@ -108,8 +108,10 @@ spec:
               name: wp-mysql-pass
               key: password.txt
         ports:
+
         - containerPort: 9000
           name: fpm
+          protocol: UDP
         livenessProbe:
           tcpSocket:
             port: 9000
