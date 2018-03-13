@@ -43,15 +43,19 @@ metadata:
   labels:
     app: wordpress
 spec:
+  type: LoadBalancer
   ports:
     - name: wordpress-http
       port: 80
       targetPort: 80
       protocol: TCP
+  externalIPs:
+    - '172.17.4.201'
+    - '172.17.4.202'
   selector:
     app: wordpress
     tier: frontend
-  type: LoadBalancer
+  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
