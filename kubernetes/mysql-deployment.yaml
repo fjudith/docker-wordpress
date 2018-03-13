@@ -46,6 +46,15 @@ spec:
         env:
           # $ kubectl create secret generic mysql-pass --from-file=password.txt
           # make sure password.txt does not have a trailing newline
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER_USER
+          value: wordpress
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wp-mysql-pass
+              key: password.txt
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
