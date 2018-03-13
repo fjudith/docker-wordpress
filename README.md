@@ -55,7 +55,7 @@ services:
 
   wordpress:
     build: php7-fpm/
-    image: fjudith/wordpress
+    image: fjudith/wordpress:php7-fpm
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_NAME: wordpress
