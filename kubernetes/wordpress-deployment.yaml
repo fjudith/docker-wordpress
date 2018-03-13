@@ -37,7 +37,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-    app: wordpress
+      app: wordpress
   strategy:
     type: Recreate
   template:
@@ -80,13 +80,13 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress
+  name: memcached
   labels:
     app: wordpress
 spec:
   selector:
     matchLabels:
-    app: wordpress
+      app: wordpress
   strategy:
     type: Recreate
   template:
@@ -110,13 +110,13 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress
+  name: nginx
   labels:
     app: wordpress
 spec:
   selector:
     matchLabels:
-    app: wordpress
+      app: wordpress
   strategy:
     type: Recreate
   template:
