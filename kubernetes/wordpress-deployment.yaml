@@ -94,7 +94,7 @@ spec:
           value: wordpress
         - name: WORDPRESS_DB_USER
           value: wordpress
-        - name: WORDPRESS_ROOT_PASSWORD
+        - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: wp-mysql-pass
