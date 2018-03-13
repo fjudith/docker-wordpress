@@ -37,7 +37,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-    k8s-app: wordpress
+    app: wordpress
   strategy:
     type: Recreate
   template:
@@ -86,7 +86,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-    k8s-app: wordpress
+    app: wordpress
   strategy:
     type: Recreate
   template:
@@ -116,7 +116,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-    k8s-app: wordpress
+    app: wordpress
   strategy:
     type: Recreate
   template:
