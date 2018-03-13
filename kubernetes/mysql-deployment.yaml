@@ -48,7 +48,7 @@ spec:
           # make sure password.txt does not have a trailing newline
         - name: MYSQL_DATABASE
           value: wordpress
-        - name: MYSQL_USER_USER
+        - name: MYSQL_USER
           value: wordpress
         - name: MYSQL_PASSWORD
           valueFrom:
