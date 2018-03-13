@@ -1,4 +1,6 @@
 # Auto detect text files and perform LF normalization
+*.sh        text eol=lf
+*.ps1       text eol=crlf
 * text=auto
 
 # Custom for Visual Studio

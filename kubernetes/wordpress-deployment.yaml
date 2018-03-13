@@ -6,7 +6,10 @@ metadata:
     app: wordpress
 spec:
   ports:
-    - port: 80
+    - name: wordpress-http
+      port: 80
+      targetPort: 80
+      protocol: TCP
   selector:
     app: wordpress
     tier: frontend
@@ -25,7 +28,7 @@ spec:
     requests:
       storage: 2Gi
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: wordpress
@@ -66,7 +69,7 @@ spec:
         persistentVolumeClaim:
           claimName: wp-pv-claim
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: wordpress
@@ -85,7 +88,7 @@ spec:
       - image: amd64/memcached:1.5
         name: memcached
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: wordpress
