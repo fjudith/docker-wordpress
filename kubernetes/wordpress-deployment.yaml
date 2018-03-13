@@ -28,13 +28,16 @@ spec:
     requests:
       storage: 2Gi
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
   labels:
     app: wordpress
 spec:
+  selector:
+    matchLabels:
+    k8s-app: wordpress
   strategy:
     type: Recreate
   template:
@@ -60,7 +63,12 @@ spec:
               key: password.txt
         ports:
         - containerPort: 9000
-          name: wordpress
+          name: fpm
+        livenessProbe:
+          tcpSocket:
+            port: 9000
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
         volumeMounts:
         - name: wordpress-persistent-storage
           mountPath: /var/www/html
@@ -69,13 +77,16 @@ spec:
         persistentVolumeClaim:
           claimName: wp-pv-claim
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
   labels:
     app: wordpress
 spec:
+  selector:
+    matchLabels:
+    k8s-app: wordpress
   strategy:
     type: Recreate
   template:
@@ -87,14 +98,25 @@ spec:
       containers:
       - image: amd64/memcached:1.5
         name: memcached
+        ports:
+        - containerPort: 11211
+          name: memcached
+        livenessProbe:
+          tcpSocket:
+            port: 11211
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
 ---
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
   labels:
     app: wordpress
 spec:
+  selector:
+    matchLabels:
+    k8s-app: wordpress
   strategy:
     type: Recreate
   template:
