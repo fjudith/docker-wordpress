@@ -20,47 +20,21 @@ services:
 
 
 before_install:
-  # BUILD
-  #
-  # php5-fpm: build
-  - docker build -f php5-fpm/Dockerfile -t ${REPO}:${COMMIT}-php5-fpm php5-fpm/
-  # php7-fpm: build
-  - docker build -f php7-fpm/Dockerfile -t ${REPO}:${COMMIT}-php7-fpm php7-fpm/
-  # nginx: build
-  - docker build -f nginx/Dockerfile -t ${REPO}:${COMMIT}-nginx nginx/
-  # nginx: cli
-  - docker build -f cli/Dockerfile -t ${REPO}:${COMMIT}-cli cli/
-  # RUN
-  #
-  ## php5: mariadb
-  - docker run -d --name "php5-md-${TRAVIS_BUILD_NUMBER}" -e MYSQL_DATABASE=wordpress -e MYSQL_ROOT_PASSWORD=Ch4ng3m3 -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=Ch4ng3m3 mariadb
-  ## php5: memcached
-  - docker run -d --name "php5-mc-${TRAVIS_BUILD_NUMBER}" memcached
-  ## php5: fpm
-  - sleep 15
-  - docker run -d --name "php5-fpm-${TRAVIS_BUILD_NUMBER}" -v php5-data:/var/www/html --link php5-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php5-md-${TRAVIS_BUILD_NUMBER}:mysql ${REPO}:${COMMIT}-php5-fpm
-  ## php5: nginx
-  - docker run -d --name "php5-nginx-${TRAVIS_BUILD_NUMBER}" -v php5-data:/var/www/html --link php5-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php5-fpm-${TRAVIS_BUILD_NUMBER}:wordpress  ${REPO}:${COMMIT}-nginx
-  ## php7: mariadb
-  - docker run -d --name "php7-md-${TRAVIS_BUILD_NUMBER}" -e MYSQL_DATABASE=wordpress -e MYSQL_ROOT_PASSWORD=Ch4ng3m3 -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=Ch4ng3m3 mariadb
-  ## php7: memcached
-  - docker run -d --name "php7-mc-${TRAVIS_BUILD_NUMBER}" memcached
-  ## php7: fpm
-  - sleep 15
-  - docker run -d --name "php7-fpm-${TRAVIS_BUILD_NUMBER}" -v php7-data:/var/www/html --link php7-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php7-md-${TRAVIS_BUILD_NUMBER}:mysql ${REPO}:${COMMIT}-php7-fpm
-  ## php7: nginx
-  - docker run -d --name "php7-nginx-${TRAVIS_BUILD_NUMBER}" -v php7-data:/var/www/html --link php7-mc-${TRAVIS_BUILD_NUMBER}:memcached --link php7-fpm-${TRAVIS_BUILD_NUMBER}:wordpress  ${REPO}:${COMMIT}-nginx
-  ## php7: cli
-  - docker run -d --name "php7-cli-${TRAVIS_BUILD_NUMBER}" -v php7-data:/var/www/html --link php7-md-${TRAVIS_BUILD_NUMBER}:mysql  ${REPO}:${COMMIT}-cli
+  # BUILD & RUN
+  ## php5
+  - docker-compose up --project-name php5-fpm --file docker-compose.php5-fpm.yml --buid --daemon
+  ## php7
+  - docker-compose up --project-name php7-fpm --file docker-compose.yml --buid --daemon
 
 
 script:
-  - docker logs php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx
-  - docker logs php7-nginx-${TRAVIS_BUILD_NUMBER}:nginx
+  #- docker logs php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx
+  - docker logs $(docker ps -q -f ancestor=${REPO}:${COMMIT}-php7-fpm)
+  - docker logs $(docker ps -q -f ancestor=${REPO}:${COMMIT}-nginx)
   # php5: test
-  - docker run --rm --link php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
+  #- docker run --rm --link php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
   # php7: test
-  - docker run --rm --link php7-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
+  - docker run --rm --link $(docker ps -q -f ancestor=${REPO}:${COMMIT}-nginx) phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
 
 
 after_success:
