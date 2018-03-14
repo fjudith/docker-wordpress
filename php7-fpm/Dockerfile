@@ -3,7 +3,7 @@ FROM wordpress:4.9.4-php7.1-fpm
 LABEL maintainer='Florian JUDITH <florian.judith.b@gmail.com>'
 
 RUN apt-get update
-RUN apt-get install --no-install-recommend -y tidy csstidy nano netcat 
+RUN apt-get install --no-install-recommends -y tidy csstidy nano netcat 
 
 RUN mkdir -p /usr/src/php/ext
 
