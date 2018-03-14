@@ -22,9 +22,9 @@ services:
 before_install:
   # BUILD & RUN
   ## php5
-  - docker-compose up --project-name php5-fpm --file docker-compose.php5-fpm.yml --build --daemon
+  - docker-compose --project-name php5-fpm --file docker-compose.php5-fpm.yml up --build --daemon
   ## php7
-  - docker-compose up --project-name php7-fpm --file docker-compose.yml --build --daemon
+  - docker-compose --project-name php7-fpm --file docker-compose.yml up --build --daemon
 
 
 script:
