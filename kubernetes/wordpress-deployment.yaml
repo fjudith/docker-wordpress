@@ -53,9 +53,6 @@ spec:
       port: 80
       targetPort: 80
       protocol: TCP
-  externalIPs:
-    - '172.17.4.201'
-    - '172.17.4.202'
   selector:
     app: wordpress
     tier: frontend
