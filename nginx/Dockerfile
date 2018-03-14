@@ -4,7 +4,8 @@ LABEL maintainer="Florian JUDITH <florian.judith.b@gmail.com>"
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
     openssl \
-    certbot
+    certbot \
+    netcat 
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
