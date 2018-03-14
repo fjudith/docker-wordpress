@@ -28,13 +28,14 @@ before_install:
 
 
 script:
+  - sleep 15
   #- docker logs php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx
   - docker logs $(docker ps -q -f ancestor=${REPO}:php7-fpm)
   - docker logs $(docker ps -q -f ancestor=${REPO}:nginx)
   # php5: test
   #- docker run --rm --link php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
   # php7: test
-  - docker run --rm --link $(docker ps -q -f ancestor=${REPO}:${COMMIT}-nginx) phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
+  - docker run --rm --link $(docker ps -q -f ancestor=${REPO}:nginx):nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
 
 
 after_success:
