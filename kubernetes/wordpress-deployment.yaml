@@ -47,7 +47,7 @@ metadata:
   labels:
     app: wordpress
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: wordpress-http
       port: 80
