@@ -35,7 +35,7 @@ script:
   # php5: test
   #- docker run --rm --link php5-nginx-${TRAVIS_BUILD_NUMBER}:nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
   # php7: test
-  - docker run --rm --link $(docker ps -q -f ancestor=${REPO}:nginx):nginx phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
+  - docker run --rm --link $(docker ps -q -f ancestor=${REPO}:nginx) phusion/baseimage /bin/bash -c "curl -ik -L http://nginx:80"
 
 
 after_success:
