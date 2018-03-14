@@ -10,13 +10,9 @@ spec:
       port: 9000
       targetPort: 9000
       protocol: TCP
-    - name: fpm-udp
-      port: 9000
-      targetPort: 9000
-      protocol: UDP
   selector:
     app: wordpress
-    tier: appengine
+    tier: engine
   type:
 ---
 apiVersion: v1
@@ -87,7 +83,7 @@ spec:
     metadata:
       labels:
         app: wordpress
-        tier: appengine
+        tier: engine
     spec:
       containers:
       - image: fjudith/wordpress:php7-fpm
@@ -108,9 +104,6 @@ spec:
         - containerPort: 9000
           name: fpm-tcp
           protocol: TCP
-        - containerPort: 9000
-          name: fpm-udp
-          protocol: UDP
         livenessProbe:
           tcpSocket:
             port: 9000
@@ -147,7 +140,11 @@ spec:
         name: memcached
         ports:
         - containerPort: 11211
-          name: memcached
+          name: memcached-tcp
+          protocol: TCP
+        - containerPort: 11211
+          name: memcached-udp
+          protocol: UDP
         livenessProbe:
           tcpSocket:
             port: 11211
