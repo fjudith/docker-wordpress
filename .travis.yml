@@ -38,7 +38,7 @@ script:
   # php5: test
   - docker run --rm --network=php5fpm_default phusion/baseimage /bin/bash -c "curl -ik -L http://php5fpm_nginx_1:80"
   # php7: test
-  - docker run --rm --network=php7fpm_default phusion/baseimage /bin/bash -c "curl -ik -L http://php5fpm_nginx_1:80"
+  - docker run --rm --network=php7fpm_default phusion/baseimage /bin/bash -c "curl -ik -L http://php7fpm_nginx_1:80"
 
 
 after_success:
