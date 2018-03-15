@@ -21,8 +21,8 @@ services:
     build: nginx/
     image: fjudith/wordpress:nginx
     ports:
-    - 32716:443/tcp
-    - 32715:80/tcp
+    - 31716:443/tcp
+    - 31715:80/tcp
     links:
     - memcached:memcached
     - wordpress:wordpress
