@@ -33,7 +33,7 @@ services:
     build: php7-fpm/
     image: fjudith/wordpress:php7-fpm
     environment:
-      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_HOST: mariadb
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: Chang3M3
