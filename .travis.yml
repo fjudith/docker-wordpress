@@ -20,42 +20,106 @@ services:
 
 
 before_install:
-  # BUILD & RUN
-  ## php5
-  - docker-compose --project-name php5-fpm --file docker-compose.php5-fpm.yml up --build -d
-  ## php7
-  - docker-compose --project-name php7-fpm --file docker-compose.yml up --build -d
+  # BUILD
+  #
+  # php5-fpm: build
+  - docker build -f php5-fpm/Dockerfile -t ${REPO}:${COMMIT}-php5-fpm php5-fpm/
+  # php7-fpm: build
+  - docker build -f php7-fpm/Dockerfile -t ${REPO}:${COMMIT}-php7-fpm php7-fpm/
+  # nginx: build
+  - docker build -f nginx/Dockerfile -t ${REPO}:${COMMIT}-nginx nginx/
+  # nginx: cli
+  - docker build -f cli/Dockerfile -t ${REPO}:${COMMIT}-cli cli/
+  # RUN
+  #
+  ## php5: network
+  docker network create wordpress-php5
+  ## php5: mariadb
+  - docker run -d --name "php5-md-${TRAVIS_BUILD_NUMBER}" \
+    --network wordpress-php5 \
+    -e MYSQL_DATABASE=wordpress \
+    -e MYSQL_ROOT_PASSWORD=Ch4ng3m3 \
+    -e MYSQL_USER=wordpress \
+    -e MYSQL_PASSWORD=Ch4ng3m3 \
+    mariadb
+  ## php5: memcached
+  - docker run -d --name "php5-mc-${TRAVIS_BUILD_NUMBER}" memcached
+  ## php5: fpm
+  - sleep 15
+  - docker run -d --name "php5-fpm-${TRAVIS_BUILD_NUMBER}" 
+    --network wordpress-php5 \
+    -v php5-data:/var/www/html \
+    -e WORDPRESS_DB_HOST=mariadb \
+    -e WORDPRESS_DB_NAME=wordpress \
+    -e WORDPRESS_DB_USER=wordpress \
+    -e WORDPRESS_DB_PASSWORD=Ch4ng3m3 \
+    ${REPO}:${COMMIT}-php5-fpm
+  ## php5: nginx
+  - docker run -d --name "php5-nginx-${TRAVIS_BUILD_NUMBER}" \
+    --network wordpress-php5 \
+    -v php5-data:/var/www/html \
+    ${REPO}:${COMMIT}-nginx
+  ## php7: network
+  docker network create wordpress-php7
+  ## php7: mariadb
+  - docker run -d --name "php7-md-${TRAVIS_BUILD_NUMBER}" \
+    --network wordpress-php7 \
+    -e MYSQL_DATABASE=wordpress \
+    -e MYSQL_ROOT_PASSWORD=Ch4ng3m3 \
+    -e MYSQL_USER=wordpress \
+    -e MYSQL_PASSWORD=Ch4ng3m3 \
+    mariadb
+  ## php7: memcached
+  - docker run -d --name "php7-mc-${TRAVIS_BUILD_NUMBER}" memcached
+  ## php7: fpm
+  - sleep 15
+  - docker run -d --name "php7-fpm-${TRAVIS_BUILD_NUMBER}" \
+    --network wordpress-php7 \
+    -v php7-data:/var/www/html \
+    -e WORDPRESS_DB_HOST=mariadb \
+    -e WORDPRESS_DB_NAME=wordpress \
+    -e WORDPRESS_DB_USER=wordpress \
+    -e WORDPRESS_DB_PASSWORD=Ch4ng3m3 \
+    ${REPO}:${COMMIT}-php7-fpm
+  ## php7: nginx
+  - docker run -d --name "php7-nginx-${TRAVIS_BUILD_NUMBER}" \
+    -v php7-data:/var/www/html \
+    ${REPO}:${COMMIT}-nginx
+  ## php7: cli
+  - docker run -d --name "php7-cli-${TRAVIS_BUILD_NUMBER}" \
+    -v php7-data:/var/www/html \
+    ${REPO}:${COMMIT}-cli
 
 
 script:
-  - sleep 15
-  # php7: logs
-  - docker logs $(docker ps -q -f ancestor=${REPO}:php5-fpm)
-  - docker logs php5fpm_nginx_1
-  # php7: logs
-  - docker logs $(docker ps -q -f ancestor=${REPO}:php7-fpm)
-  - docker logs php7fpm_nginx_1
+  # wait 15 seconds for application initialization
+  - NGINX_PHP5=`docker ps -qa -f ancestor=php5-nginx-${TRAVIS_BUILD_NUMBER}`
+  - NGINX_PHP7=`docker ps -qa -f ancestor=php7-nginx-${TRAVIS_BUILD_NUMBER}`
   # php5: test
-  - docker run --rm --network=php5fpm_default phusion/baseimage /bin/bash -c "curl -ik -L http://php5fpm_nginx_1:80"
+  - docker run --rm --network wordpress-php5 \
+    phusion/baseimage \
+    /bin/bash -c "curl -ik -L http://nginx:80"
   # php7: test
-  - docker run --rm --network=php7fpm_default phusion/baseimage /bin/bash -c "curl -ik -L http://php7fpm_nginx_1:80"
+  - docker run --rm --network wordpress-php7 \
+    phusion/baseimage \
+    /bin/bash -c "curl -ik -L http://nginx:80"
 
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   # latest
-  - docker tag ${REPO}:php5-fpm ${REPO}:${TAG}
+  - docker tag ${REPO}:${COMMIT}-php5-fpm ${REPO}:${TAG}
   # php5
-  - docker tag ${REPO}:php5-fpm ${REPO}:${PHP5}
-  - docker tag ${REPO}:php5-fpm ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-php5-fpm
+  - docker tag ${REPO}:${COMMIT}-php5-fpm ${REPO}:${PHP5}
+  - docker tag ${REPO}:${COMMIT}-php5-fpm ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-php5-fpm
   # php7
-  - docker tag ${REPO}:php7-fpm ${REPO}:${PHP7}
-  - docker tag ${REPO}:php7-fpm ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-php7-fpm
+  - docker tag ${REPO}:${COMMIT}-php7-fpm ${REPO}:${PHP7}
+  - docker tag ${REPO}:${COMMIT}-php7-fpm ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-php7-fpm
   # nginx
-  - docker tag ${REPO}:nginx ${REPO}:${NGINX}
-  - docker tag ${REPO}:nginx ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-nginx
+  - docker tag ${REPO}:${COMMIT}-nginx ${REPO}:${NGINX}
+  - docker tag ${REPO}:${COMMIT}-nginx ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-nginx
   # cli
-  - docker tag ${REPO}:cli ${REPO}:${CLI}
-  - docker tag ${REPO}:cli ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-cli
+  - docker tag ${REPO}:${COMMIT}-cli ${REPO}:${CLI}
+  - docker tag ${REPO}:${COMMIT}-cli ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-cli
   # push to public registry
-  - docker push ${REPO}
+- docker push ${REPO}
