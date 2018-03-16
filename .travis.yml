@@ -93,16 +93,14 @@ before_install:
 
 script:
   # wait 15 seconds for application initialization
-  - NGINX_PHP5=`docker ps -qa -f ancestor=php5-nginx-${TRAVIS_BUILD_NUMBER}`
-  - NGINX_PHP7=`docker ps -qa -f ancestor=php7-nginx-${TRAVIS_BUILD_NUMBER}`
   # php5: test
   - docker run --rm --network wordpress-php5 \
     phusion/baseimage \
-    /bin/bash -c "curl -ik -L http://nginx:80"
+    /bin/bash -c "curl -ik -L http://php5-nginx-${TRAVIS_BUILD_NUMBER}:80"
   # php7: test
   - docker run --rm --network wordpress-php7 \
     phusion/baseimage \
-    /bin/bash -c "curl -ik -L http://nginx:80"
+    /bin/bash -c "curl -ik -L http://php7-nginx-${TRAVIS_BUILD_NUMBER}:80"
 
 
 after_success:
