@@ -184,3 +184,22 @@ spec:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
           claimName: wp-pv-claim
+---
+###########################################################################
+# Ingress resource (gateway)
+##########################################################################
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordpress-gateway
+  annotations:
+    kubernetes.io/ingress.class: "istio"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /wordpress
+        backend:
+          serviceName: nginx
+          servicePort: 80
+---
