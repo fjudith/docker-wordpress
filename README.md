@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/fjudith/docker-wordpress.svg?branch=master)](https://travis-ci.org/fjudith/docker-wordpress)
 
-![Architecture & Distribution](https://github.com/fjudith/docker-limesurvey/raw/master/wordpress_architecture.png)
+![Architecture & Distribution](https://github.com/fjudith/docker-wordpress/raw/master/wordpress_architecture.png)
 
 # Introduction
 
