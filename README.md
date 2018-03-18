@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/fjudith/docker-wordpress.svg?branch=master)](https://travis-ci.org/fjudith/docker-wordpress)
 
+![Architecture & Distribution](https://github.com/fjudith/docker-limesurvey/raw/master/wordpress_architecture.png)
+
 # Introduction
 
 This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress fpm image](https://hub.docker.com/_/wordpress/) for WordPress plugins.
@@ -17,6 +19,7 @@ This Docker image adds LDAP and Memcached PHP Extension to [official Wordpress f
 * [x] Build & Validate using Travis CI and Jenkins CI
 * [x] Add WP-FFPC plugin for object caching to Memcached
 * [x] Add Simple-Ldap-Login plugin for LDAP/AD authentication
+* [x] Enable HTTP/2 support in Nginx
 
 ## Production deployment
 
