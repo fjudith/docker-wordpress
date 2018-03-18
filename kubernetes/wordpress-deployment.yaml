@@ -52,12 +52,12 @@ metadata:
   labels:
     app: wordpress
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
   ports:
     - name: wordpress-http
       port: 80
-      targetPort: 80
-      protocol: TCP
+      #targetPort: 80
+      #protocol: TCP
   selector:
     app: wordpress
     tier: frontend
@@ -218,7 +218,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /wordpress
+      - path: /
         backend:
           serviceName: nginx
           servicePort: 80
