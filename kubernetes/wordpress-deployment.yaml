@@ -16,7 +16,7 @@ spec:
   selector:
     app: wordpress
     tier: engine
-  type:
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -54,7 +54,7 @@ spec:
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
-          value: wordpress-mysql
+          value: mysql
         - name: WORDPRESS_DB_NAME
           value: wordpress
         - name: WORDPRESS_DB_USER
@@ -103,7 +103,7 @@ spec:
   selector:
     app: wordpress
     tier: caching
-  type: 
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -194,26 +194,4 @@ spec:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
           claimName: wp-pv-claim
----
-##########################################################################
-# Ingress resource (gateway)
-##########################################################################
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: gateway
-  annotations:
-    kubernetes.io/ingress.class: "istio"
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          serviceName: nginx
-          servicePort: 80
-      - path: /wp-.*
-        backend:
-          serviceName: nginx
-          servicePort: 80    
 ---
