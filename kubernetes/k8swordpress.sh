@@ -53,13 +53,15 @@ fi
 # Delete
 if [ -z delete ] || [ "$delete" == "conduit" ]; then
   kubectl delete -f ./local-volumes.yaml
-  kubectl delete secret wp-mysql-pass
+  kubectl delete secret -n wordpress wp-mysql-pass
   kubectl delete -n wordpress -f ./mysql-deployment.yaml
   kubectl delete -n wordpress -f ./wordpress-deployment.yaml
+
+  kubectl delete namespace wordpress
 fi
 
 if [ -v delete ] && [ "$delete" == "istio" ]; then
-  kubectl delete -n wordpress -f ./local-volumes.yaml
+  kubectl delete -f ./local-volumes.yaml
   kubectl delete secret -n wordpress wp-mysql-pass
   kubectl delete -n wordpress -f ./mysql-deployment.yaml
   kubectl delete -n wordpress -f ./wordpress-deployment.yaml
