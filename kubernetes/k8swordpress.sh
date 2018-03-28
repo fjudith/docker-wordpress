@@ -20,7 +20,7 @@ if [ -z create ] ; then
   kubectl apply -n wordpress -f ./mysql-deployment.yaml
   kubectl apply -n wordpress -f ./wordpress-deployment.yaml
 
-  kubectl get svc nginx -n default
+  kubectl get svc nginx -n wordpress
 elif [ -v create ] && [ "$create" == "conduit" ]; then
   kubectl create namespace wordpress
 
@@ -30,9 +30,9 @@ elif [ -v create ] && [ "$create" == "conduit" ]; then
   cat ./mysql-deployment.yaml | conduit inject --skip-inbound-ports=3306 - | kubectl apply -n wordpress -f -
   cat ./wordpress-deployment.yaml | conduit inject --skip-outbound-ports=3306,9000,11211 --skip-inbound-ports=3306,9000,11211 - | kubectl apply -n wordpress -f -
 
-  kubectl get svc nginx -n default -o jsonpath="{.status.loadBalancer.ingress[0].*}"
+  kubectl get svc nginx -n wordpress -o jsonpath="{.status.loadBalancer.ingress[0].*}"
 
-  kubectl get svc nginx -n default
+  kubectl get svc nginx -n wordpress
 elif [ -v create ] && [ "$create" == "istio" ]; then
   kubectl create namespace wordpress
   kubectl label namespace wordpress istio-injection=enabled
