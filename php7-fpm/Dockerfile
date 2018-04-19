@@ -32,6 +32,7 @@ RUN apt-get update && \
         mv pecl-memcache-NON_BLOCKING_IO_php7 memcache && \
     docker-php-ext-configure memcache --with-php-config=/usr/local/bin/php-config && \
     docker-php-ext-install memcache && \
+    docker-php-ext-install memcached && \
     echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini && \
     rm -rf /tmp/pecl-memcache-php7 php7.zip && \
     # Install needed php extensions: zip
@@ -41,8 +42,6 @@ RUN apt-get update && \
         tar -xf zip.tgz -C /usr/src/php/ext/ && \
         rm zip.tgz && \
         mv /usr/src/php/ext/zip-1.15.1 /usr/src/php/ext/zip && \
-    docker-php-ext-install memcached && \
-    docker-php-ext-install memcache && \
     docker-php-ext-install zip && \
     # Install needed php extensions: ldap
     #

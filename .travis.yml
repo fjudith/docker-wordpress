@@ -120,4 +120,4 @@ after_success:
   - docker tag ${REPO}:${COMMIT}-cli ${REPO}:${CLI}
   - docker tag ${REPO}:${COMMIT}-cli ${REPO}:travis-${TRAVIS_BUILD_NUMBER}-cli
   # push to public registry
-- docker push ${REPO}
+  - docker push ${REPO}
