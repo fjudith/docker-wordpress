@@ -98,7 +98,7 @@ Set the following minimal configuration options:
 
 ## Updating
 
-Because the `docker-compose` levegare persistent volume in the Wordpress root directory, its required to open a session in the `cli` container in order to run the command `wp core update`.
+Because the `docker-compose` leverage persistent volume in the Wordpress root directory, its required to open a session in the `cli` container in order to run the command `wp core update`.
 
 ### Interactive
 
